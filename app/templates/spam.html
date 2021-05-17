@@ -43,19 +43,12 @@
             <h1>Check your spam:</h1>
             <p class="lead">This webinterface allows you to upload a exported Email file and let it be checked by our
                 system to see if it is spam or not:</p>
-            <p class="lead">
-            <div>
-                <form id="upload_form" action="/predict" method="post" enctype="multipart/form-data">
-                    <label for="formFileLg" class="form-label">Upload a valid .eml file</label>
-                    <input class="form-control form-control-lg" id="email_raw" name="email_raw" type="file"
-                        accept=".eml">
-                    <hr>
-                    <p class="lead">
-                        <input type="submit" value="Get spam prediction!" id="SubmitButton" />
-                    </p>
-                </form>
+            <div class="alert alert-danger" role="alert">
+                Your mail is spam with a probability of {{ prediction }}%!
             </div>
-
+            <p class="lead">
+                <a href="/" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Check another mail!</a>
+            </p>
         </main>
 
         <footer class="mt-auto text-white-50">
