@@ -2,13 +2,16 @@ from flask import render_template, url_for, request, flash, redirect
 import email
 from app import app
 from werkzeug.utils import secure_filename
+from app.predict_email import Prediction
+import tempfile
 
+predict_email = Prediction()
 
 def parse_email(email_raw):
     parser = email.parser.BytesParser()
     email_parsed = parser.parse(email_raw)
     return email_parsed
-
+    
 
 @app.route("/")
 def home():
@@ -19,11 +22,25 @@ def home():
 def predict():
     if request.method == "POST":
         email_raw = request.files["email_raw"]
-        # email_parsed = parse_email(email_raw)
-        # print(email["subject"])
-        # Features = prepData(textData)
-        # prediction = int((np.asscalar(loaded_model.predict(Features))) * 100)
-        return render_template("spam.html", prediction=email_raw.filename)
+        
+        if email_raw.filename != "":
+            temp_name = next(tempfile._get_candidate_names())
+            with open(f"./app/data/uploads/{temp_name}.eml", "wb") as f:
+                f.write(email_raw.read())
+
+            spam,prediction = predict_email.predict_emails([f"./app/data/uploads/{temp_name}.eml"])
+
+            # email_parsed = parse_email(email_raw)
+            # print(email["subject"])
+            # Features = prepData(textData)
+            # prediction = int((np.asscalar(loaded_model.predict(Features))) * 100)
+            if spam:
+                return render_template("spam.html", prediction=prediction[0][1]*100)
+            else:
+                return render_template("ham.html", prediction=prediction[0][0]*100)
+        else:
+            return render_template("home.html")
+
     else:
         return render_template("home.html")
 
