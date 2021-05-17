@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#7952b3">
+    <meta name="author" content="SECANA - Gruppe 5">
+    <title>SECANA - SpamDetection</title>
+
+    <!-- CSS by Bootstrap -->
+    <link href="{{ url_for('static', filename='bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap/cover.css') }}" rel="stylesheet">
+
+    <!-- Some inline CSS -->
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            background-image: url("{{ url_for('static', filename='images/bg.jpg') }}")
+        }
+    </style>
+
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark bd-placeholder-img">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div>
+                <h3 class="float-md-start mb-0">SECANA - SpamDetection</h3>
+                <nav class="nav nav-masthead justify-content-center float-md-end">
+                    <a class="nav-link active" aria-current="page" href="#">Start</a>
+                    <a class="nav-link" href="#">Team</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="px-3">
+            <h1>Check your spam:</h1>
+            <p class="lead">This webinterface allows you to upload a exported Email file and let it be checked by our
+                system to see if it is spam or not:</p>
+            <p class="lead">
+            <div>
+                <label for="formFileLg" class="form-label">Upload a valid .eml file</label>
+                <input class="form-control form-control-lg" id="formFileLg" type="file">
+            </div>
+            <hr>
+            <p class="lead">
+                <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Check!</a>
+            </p>
+        </main>
+
+        <footer class="mt-auto text-white-50">
+            <p>A Machine Learning project by Felix, Josela, Konstantin, Lionel, Marius und Veit.</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>
