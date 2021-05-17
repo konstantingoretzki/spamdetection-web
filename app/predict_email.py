@@ -15,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+
 class Prediction:
     def __init__(self):
         vocab = joblib.load("./app/data/vocab.sav")
@@ -188,8 +189,14 @@ class Prediction:
         rows = Prediction.parse_dataset(emails)
         df = pd.DataFrame(rows, columns = ['raw_data', 'subject', 'from', 'auth_error', 'urls', 'domains'])
 
-        df["data"] = df["raw_data"].apply(Prediction.clean_text)                                  
-        df["token_text"] = df.apply(lambda row: word_tokenize(str(row["data"])), axis=1)
+        df["data"] = df["raw_data"].apply(Prediction.clean_text)
+
+        try:                                  
+            df["token_text"] = df.apply(lambda row: word_tokenize(str(row["data"])), axis=1)
+        except:
+            download('punkt')
+            df["token_text"] = df.apply(lambda row: word_tokenize(str(row["data"])), axis=1)
+            
         df["stop_text"] = df["token_text"].apply(Prediction.remove_stopwords)                                 
         df["clean_text"] = df["stop_text"].apply(Prediction.lemmatize_word)                                  
         df["chars"] = df["raw_data"].apply(len)
