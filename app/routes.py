@@ -1,4 +1,4 @@
-from flask import render_template, url_for, request, flash, redirect
+from flask import render_template, url_for, request, flash, redirect, make_response
 import email
 from app import app
 from werkzeug.utils import secure_filename
@@ -34,10 +34,21 @@ def predict():
             # print(email["subject"])
             # Features = prepData(textData)
             # prediction = int((np.asscalar(loaded_model.predict(Features))) * 100)
+
+            # better use switch-case?
+
             if spam:
-                return render_template("spam.html", prediction=prediction[0][1]*100)
+                r = make_response(render_template("spam.html", prediction=prediction[0][1]*100))
+                r.headers.add('Access-Control-Allow-Origin', '*')
+                r.headers.add('Access-Control-Expose-Headers', 'Content-Disposition')
+                return r
+
             else:
-                return render_template("ham.html", prediction=prediction[0][0]*100)
+                r = make_response(render_template("ham.html", prediction=prediction[0][0]*100))
+                r.headers.add('Access-Control-Expose-Headers', 'Content-Disposition')
+                r.headers.add('Access-Control-Allow-Origin', '*')
+                return r
+
         else:
             return render_template("home.html")
 
