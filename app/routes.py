@@ -35,19 +35,17 @@ def predict():
             # Features = prepData(textData)
             # prediction = int((np.asscalar(loaded_model.predict(Features))) * 100)
 
-            # better use switch-case?
-
             if spam:
-                r = make_response(render_template("spam.html", prediction=prediction[0][1]*100))
-                r.headers.add('Access-Control-Allow-Origin', '*')
-                r.headers.add('Access-Control-Expose-Headers', 'Content-Disposition')
-                return r
-
+                page = "spam.html"
+                score = int(round(prediction[0][1]*100))
             else:
-                r = make_response(render_template("ham.html", prediction=prediction[0][0]*100))
-                r.headers.add('Access-Control-Expose-Headers', 'Content-Disposition')
-                r.headers.add('Access-Control-Allow-Origin', '*')
-                return r
+                page = "ham.html"
+                score = int(round(prediction[0][0]*100))
+
+            r = make_response(render_template(page, prediction=score))
+            r.headers.add('Access-Control-Allow-Origin', '*')
+            r.headers.add('Access-Control-Expose-Headers', 'Content-Disposition')
+            return r
 
         else:
             return render_template("home.html")
